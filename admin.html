@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <title>Bidonit - Online Auction System</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!--
+
+TemplateMo 546 Sixteen Clothing
+
+https://templatemo.com/tm-546-sixteen-clothing
+
+-->
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+
+  </head>
+
+  <body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">    <img src="./assets//images/bidonit_logo.png" alt="" width="50" height="50"> </img>
+          <a class="navbar-brand" href="index.html"><h2>Bidonit <em>Online Auction System</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li> 
+              <li class="nav-item" style="display: none;">
+                <a class="nav-link" href="products.html">My Products</a>
+              </li>
+              <li class="nav-item" style="display: none;">
+                <a class="nav-link" href="bids.html">My Bids</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="login.html">User Login</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="admin.html">Admin</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-heading contact-heading header-text">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-content">
+              <h4>Login</h4>
+              <h2>Login to Your Account</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+    <div class="send-message">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>Admin account</h2>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="contact-form">
+              <div id="contact">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <fieldset>
+                      <input name="email" type="email" class="form-control" id="email" placeholder="Email" required="">
+                    </fieldset>
+                  </div>              
+                  <div class="col-lg-12 col-md-12 col-sm-12" >
+                    <fieldset>
+                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12" id="signinButton">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="filled-button" onclick="login()">Sign In</button>
+                    </fieldset>
+                  </div>
+                 </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <ul class="accordion">
+              <li>
+                  <a>Admin Features</a>
+              </li>
+              <li>
+                  <a>View All Products as well as feedback</a>
+              </li>
+              <li>
+                  <a>Delete other users products</a>
+              </li>
+              <li>
+                  <a>Delete fake or unwanted ads</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="happy-clients">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>Our Happy Customers</h2>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="owl-clients owl-carousel">
+              <div class="client-item">
+                <img src="assets/images/client-01.png" alt="1">
+              </div>
+              
+              <div class="client-item">
+                <img src="assets/images/client-01.png" alt="2">
+              </div>
+              
+              <div class="client-item">
+                <img src="assets/images/client-01.png" alt="3">
+              </div>
+              
+              <div class="client-item">
+                <img src="assets/images/client-01.png" alt="4">
+              </div>
+              
+              <div class="client-item">
+                <img src="assets/images/client-01.png" alt="5">
+              </div>
+              
+              <div class="client-item">
+                <img src="assets/images/client-01.png" alt="6">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+              <p>Copyright &copy; 2023 Bidonit.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/owl.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/accordions.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+  apiKey: "AIzaSyC2iglMpBS9FeU_gSLmKjqzEkQEXSM6taE",
+  authDomain: "bidonit-4586c.firebaseapp.com",
+  databaseURL: "https://bidonit-4586c-default-rtdb.firebaseio.com",
+  projectId: "bidonit-4586c",
+  storageBucket: "bidonit-4586c.appspot.com",
+  messagingSenderId: "733815136897",
+  appId: "1:733815136897:web:1969d24c7d62f0dd19e380"
+};
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+   
+    </script>
+
+<script>
+  const auth = firebase.auth();
+
+   function login() {
+   const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    if (email.trim() == "") {
+      alert("Enter Email");
+    }
+    else if (password.trim() == "") {
+      alert("Enter Password");
+    } 
+    else if(email.includes("admin@bidonit.com")){
+     auth
+       .signInWithEmailAndPassword(email, password)
+       .then(result=>{
+        alert("Login Successful")
+       })
+       .catch(function (error) {
+         // Handle Errors here.
+         var errorCode = error.code;
+         var errorMessage = error.message;
+         alert(errorMessage);
+         // ...
+       });
+    }
+    else{
+       alert("Permission denied!")
+    }
+ };
+
+</script>
+
+
+    <script language = "text/Javascript"> 
+      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+      function clearField(t){                   //declaring the array outside of the
+      if(! cleared[t.id]){                      // function makes it static and global
+          cleared[t.id] = 1;  // you could use true and false, but that's more typing
+          t.value='';         // with more chance of typos
+          t.style.color='#fff';
+          }
+      }
+    </script>
+
+    <script>
+
+      var signup = true;
+      if(signup){
+        document.getElementById("signup").style.display = "none";
+        document.getElementById("signinButton").style.display = "none";
+
+      }else{
+
+      }
+
+      function showSignIn(){
+        signup = false;
+        document.getElementById("signin").style.display = "none";
+        document.getElementById("signupButton").style.display = "none";
+        document.getElementById("address").style.display = "none";
+        document.getElementById("name").style.display = "none";
+        document.getElementById("email").style.display = "none";
+        document.getElementById("signup").style.display = "block";
+        document.getElementById("signinButton").style.display = "block";
+        document.getElementById("selectOption").style.display = "none";
+      }
+
+      function showSignUp(){
+        signup = true;
+        document.getElementById("signin").style.display = "block";
+        document.getElementById("signupButton").style.display = "block";
+        document.getElementById("address").style.display = "block";
+        document.getElementById("name").style.display = "block";
+        document.getElementById("email").style.display = "block";
+        document.getElementById("signup").style.display = "none";
+        document.getElementById("signinButton").style.display = "none";
+        document.getElementById("selectOption").style.display = "block";
+      }
+      
+    </script>
+
+
+  </body>
+
+</html>
