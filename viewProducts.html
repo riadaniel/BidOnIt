@@ -56,9 +56,12 @@ https://templatemo.com/tm-546-sixteen-clothing
                 </a>
               </li> 
               <li class="nav-item active">
-                <a class="nav-link" href="products.html">My Products</a>
+                <a class="nav-link" href="#">View Products</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" id="myProducts">
+                <a class="nav-link" href="myProducts.html">My products</a>
+              </li>
+              <li class="nav-item" id="addProducts">
                 <a class="nav-link" href="addProducts.html">Add products</a>
               </li>
               <li class="nav-item" id="userLogin">
@@ -88,7 +91,7 @@ https://templatemo.com/tm-546-sixteen-clothing
       </div>
     </div>
 
-    <section id="services" >
+    <section id="services" style="display: none;">
         <div class="container-fluid">
            <div class="row row-sm">
               <div class="col-md-6 _boxzoom">
@@ -116,20 +119,47 @@ https://templatemo.com/tm-546-sixteen-clothing
                        </div>
                        </div>
                        <div class="_p-features" id="paragraph">
-                          <span> Description About this product:- </span>
-                                                
+                          <span> Description About this product:- </span>                      
                        </div>
-                       <div action="" accept-charset="utf-8">
-                          <ul class="spe_ul"></ul>
-                          <div class="_p-qty-and-cart" style="margin-top: 20px;">
-                             <div class="_p-add-cart">
-                                <button class="btn-theme btn buy-btn" tabindex="0" onclick="submitBid()">
-                                <i class="fa fa-gavel"></i> Submit a Bid
-                                </button>
-  
-                             </div>
-                          </div>
+                       <div class="_p-features" id="paragraph">
+                        <label for=""> <span>Number of Bids:- </span> <span id="numberOfBids">0</span></label>
+                     </div>
+                     <div class="_p-features" id="paragraph">
+                      <label for=""> <span>Highest Bid Amount of the product:- </span> <span id="highestBid">0</span></label>
+                   </div>
+                      <form id="form1">
+                        <div class="field" style="display: none;">
+                          <label for="to_name">to_name</label>
+                          <input type="text" name="to_name" id="to_name1">
                         </div>
+                        <div class="field" style="display: none;">
+                          <label for="reply_to">reply_to</label>
+                          <input type="text" name="reply_to" id="reply_to1">
+                        </div>
+                        <div class="field">
+                          <label >Bid Amount</label>
+                          <input type="number" id="bidAmount">
+                        </div>
+                          <div action="" accept-charset="utf-8">
+                            <ul class="spe_ul"></ul>
+                            <div class="_p-qty-and-cart" style="margin-top: 20px;">
+                               <div class="_p-add-cart">
+                                  <button type="submit" class="btn-theme btn buy-btn" id="button" tabindex="0" >
+                                  <i class="fa fa-gavel"></i> Submit a Bid
+                                  </button>
+    
+                               </div>
+                            </div>
+                          </div>
+                      </form>
+                    
+
+                      <script type="text/javascript"
+                        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+                      
+                      <script type="text/javascript">
+                        emailjs.init('qkv7rdBylr2g5d2vi')
+                      </script>
                     </div>
                  </div>
               </div>
@@ -182,7 +212,11 @@ https://templatemo.com/tm-546-sixteen-clothing
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+      emailjs.init('qkv7rdBylr2g5d2vi')
+    </script>
     <script>
       // Your web app's Firebase configuration
       const firebaseConfig = {
@@ -201,7 +235,17 @@ https://templatemo.com/tm-546-sixteen-clothing
     </script>
 
     <script>
+  const todayTime = new Date();
+  let servicesSection = document.getElementById("services");
 
+function diff_hours(dt2, dt1) 
+{
+
+  var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= (60 * 60);
+  return Math.abs(Math.round(diff));
+  
+}
     var customersRef = db.collection("Products");
         customersRef
         .get()
@@ -213,28 +257,30 @@ https://templatemo.com/tm-546-sixteen-clothing
 
         
           let htmlCode = ``;
-
   if(data.length===0){
+    servicesSection.style.display = "none";
     htmlCode =    `
 
-  <p style="color:black"> No products added yet! </p>
+  <p style="color:black;"> No products added yet! </p>
 
   `;
   }
 else{
+  servicesSection.style.display = "block";
 
 for(var i=0;i<data.length;i++){   
-    var startTime = data[i].timeStamp;
-    var todayTime = Date.now();
-    var duration = todayTime - startTime;
-    var timeLeft = data[i].hours - Math.floor((duration / (1000 * 60)) % 60);
-    var timeLeftMessage;
-    if(timeLeft<=0){
-        timeLeftMessage = "Auction closed!";
-      }else{
-        timeLeftMessage = timeLeft+" hours left!";
-      }
+  
+  var startTime = data[i].timeStamp;
+      var dat = startTime.toDate();
+      
+      var duration = diff_hours(dat,todayTime);
+      var timeLeft =  data[i].hours - duration;
 
+      var timeLeftMessage;
+      timeLeftMessage = timeLeft+" hours left!";
+
+      if(timeLeft>0){
+    
   htmlCode =
   htmlCode
    +
@@ -246,7 +292,7 @@ for(var i=0;i<data.length;i++){
                 <a ><h4> ${data[i].title}</h4></a>
                 <h6>₹${data[i].price}</h6>
                 <a ><h4> ${timeLeftMessage}</h4></a>
-                <p>${data[i].description}</p>
+                <p class="fifty-chars">${data[i].description}</p>
                 <ul class="stars">
                   <li><i class="fa fa-star"></i></li>
                   <li><i class="fa fa-star"></i></li>
@@ -259,7 +305,16 @@ for(var i=0;i<data.length;i++){
             </div>
           </div>
 `;
+}
 }}
+if(htmlCode == ``){
+  htmlCode =    `
+
+<p style="color:black;  margin-left:400px"> No products under auction, please check later! </p>
+
+`;
+servicesSection.style.display = "none";
+}
 const allProducts = document.getElementById("all-products");
 allProducts.innerHTML = htmlCode;
 });
@@ -270,6 +325,9 @@ allProducts.innerHTML = htmlCode;
     const price = document.getElementById("price");
     const paragraph = document.getElementById("paragraph");
     const productImage = document.getElementById("productImage");
+    const numberOfBids = document.getElementById("numberOfBids");
+    const highestBid = document.getElementById("highestBid");
+
     const p1 = document.getElementById("p1");
     const p2 = document.getElementById("p2");
     const p3 = document.getElementById("p3");
@@ -290,6 +348,15 @@ allProducts.innerHTML = htmlCode;
         p2.src = data.image;
         p3.src = data.image;
         p4.src = data.image;
+        var sum = [];
+        numberOfBids.innerText = data.bids.length;
+        if(data.bids && data.bids.length>0){
+          for(var j=0;j<data.bids.length;j++){ 
+            sum.push(data.bids[j].bidAmount);
+          }
+          sum.sort(function(a, b){return a - b});
+          highestBid.innerText = sum[sum.length-1];
+        }
     });
     function viewProduct(value,title,amount,description,productimage)
     {
@@ -317,51 +384,114 @@ allProducts.innerHTML = htmlCode;
     document.getElementById("logout").style.display = "none";
     document.getElementById("userLogin").style.display = "block";
    }		
+});
 
-   function logout(){
+function logout(){
    auth.signOut();
    window.location = "login.html";
 }
-});
 </script>
 
 <script>
-function submitBid(){
-    auth.onAuthStateChanged(function(user){
+  var myProducts = document.getElementById('myProducts');
+  var addProducts = document.getElementById('addProducts');
+   auth.onAuthStateChanged(function(user){
         if(user){
             var userEmail = user.email;
             var userType, userEmails = [];
             var productId = localStorage.getItem("id");
             var customersRef = db.collection("Bidder").where("email", '==', userEmail);
+            var bidAmount = document.getElementById("bidAmount").value;
 
+            customersRef
+            .get()
+            .then((snapshot) => {
+
+                if(snapshot.docs.length==0){
+                  myProducts.style.display = "block";
+                    addProducts.style.display = "block";
+                }else{
+               
+                    myProducts.style.display = "none";
+                  addProducts.style.display = "none";
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+  const btn = document.getElementById('button');
+  var form1 = document.getElementById('form1');
+
+document.getElementById('form1')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();
+
+   const serviceID = 'default_service';
+   const templateID = 'template_1o8rmmu';
+
+   auth.onAuthStateChanged(function(user){
+        if(user){
+            var userEmail = user.email;
+            var userType, userEmails = [];
+            var productId = localStorage.getItem("id");
+            var customersRef = db.collection("Bidder").where("email", '==', userEmail);
+            var bidAmount = parseInt(document.getElementById("bidAmount").value);
             customersRef
             .get()
             .then((snapshot) => {
                 if(snapshot.docs.length>0){
                     db.collection("Products").doc(productId).get().then(result=>{
+                    if(bidAmount> parseInt(result.data().price)){  
+                    if(result.data().bids){
                     if(result.data().bids.length>0){
                         for(var i=0;i<result.data().bids.length;i++){
-                            if(result.data().bids[i]!=userEmail)
+                            if(result.data().bids[i].email!=userEmail)
                             userEmails.push(result.data().bids[i])
                         }
                     }
-                    userEmails.push(userEmail);
+                    }
+                    var finalObject = {
+                      email:userEmail,
+                      bidAmount:bidAmount
+                    }
+                    userEmails.push(finalObject);
+                    document.getElementById("reply_to1").value = userEmail;
+                    document.getElementById("to_name1").value = userEmail;
                     db.collection("Products").doc(productId).update({
                     "bids": userEmails}).then(result=>{
-                        alert("Your Bid Submitted Successfully!");
+                      emailjs.sendForm(serviceID, templateID, form1)
+                    .then(() => {
+                      alert('Your Bid Submitted Sucessfully!'); 
+                      location.reload();          
+                    }, (err) => {
+                      alert(JSON.stringify(err));
+                    });
+                      });
+                    }else{
+                      alert("Bid Amount should not be lesser than product price!");
+                    }
                     }).catch(err=>{
                         alert(err)
-                    })
                     }).catch(err=>{
                         alert(err)
                     })
                 }else{
                     alert("Valid Bidder Account is required to submit Bid!");
-                    window.location = "login.html";
+                    window.location = "index.html";
                 }
             });
         }
     });
+
+});
+</script>
+
+
+<script>
+function submitBid(){
+  
 }
 </script>
 

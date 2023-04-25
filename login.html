@@ -61,7 +61,7 @@ https://templatemo.com/tm-546-sixteen-clothing
               <li class="nav-item" style="display: none;">
                 <a class="nav-link" href="bids.html">My Bids</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item active" id="login">
                 <a class="nav-link" href="login.html">User Login</a>
               </li>
               <li class="nav-item">
@@ -103,26 +103,31 @@ https://templatemo.com/tm-546-sixteen-clothing
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
+                      <label for="" id="fullnameLabel">Full Name*</label>
                       <input name="name" type="text" class="form-control" id="name" placeholder="Full Name" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
+                      <label for="" id="emailAddressLabel">E-Mail Address*</label>
                       <input name="email" type="text" class="form-control" id="email" placeholder="E-Mail Address" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
+                      <label for="" id="phoneNumberLabel">Phone Number*</label>
                       <input name="phoneNumber" type="phone" class="form-control" id="phoneNumber" placeholder="Phone Number" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-12">
                     <fieldset>
+                      <label for="" id="yourAddressLabel">Your Address*</label>
                       <textarea name="address" rows="6" class="form-control" id="address" placeholder="Your Address" required=""></textarea>
                     </fieldset>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12" id="selectOption" style="margin-bottom: 30px;">
                     <fieldset>
+                      <label for="" id="usertypeLabel">Select usertype*</label>
                     <select  class="form-control" id="userType">
                        <option>Select Bidder/Seller</option>
                        <option>Bidder</option>
@@ -133,7 +138,14 @@ https://templatemo.com/tm-546-sixteen-clothing
                  
                   <div class="col-lg-12 col-md-12 col-sm-12" >
                     <fieldset>
-                      <input name="password" type="password" class="form-control" id="password" placeholder="Password" required="">
+                      <label for="" id="passwordLabel">Password*</label>
+                      <input id="password-field" type="password" class="form-control" name="password" >
+                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                    </fieldset>
+
+                    <fieldset>
+                      <label for="" id="confirmpasswordLabel">Confirm Password*</label>
+                      <input id="confirm-password-field" type="password" class="form-control" name="password" >
                     </fieldset>
                   </div>
                   <div class="col-lg-12" id="signupButton">
@@ -273,10 +285,11 @@ https://templatemo.com/tm-546-sixteen-clothing
 
 <script>
   const auth = firebase.auth();
+  const loginPage = document.getElementById("login");
 
    function login() {
    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
+    const password = document.querySelector("#password-field").value;
     if (email.trim() == "") {
       alert("Enter Email");
     }
@@ -287,7 +300,8 @@ https://templatemo.com/tm-546-sixteen-clothing
      auth
        .signInWithEmailAndPassword(email, password)
        .then(result=>{
-        window.location='addProducts.html';
+        loginPage.style.display = "none";
+        window.location='index.html';
        })
        .catch(function (error) {
          // Handle Errors here.
@@ -302,7 +316,6 @@ https://templatemo.com/tm-546-sixteen-clothing
 </script>
 
 <script>
-
 //invokes firebase authentication.
 
 function register() {
@@ -310,8 +323,14 @@ const email = document.getElementById("email").value;
 const name = document.getElementById("name").value;
 const address = document.getElementById("address").value;
 const phoneNumber = document.getElementById("phoneNumber").value;
-const password = document.getElementById("password").value;
+const password = document.getElementById("password-field").value;
 const userType =  document.getElementById("userType").value;
+const confirmPassword = document.getElementById("confirm-password-field").value;
+const fullnameLabel = document.getElementById("fullnameLabel");
+const emailAddressLabel = document.getElementById("emailAddressLabel");
+const phoneNumberLabel = document.getElementById("phoneNumberLabel");
+const passwordLabel = document.getElementById("passwordLabel");
+const confirmpasswordLabel = document.getElementById("confirmpasswordLabel");
 
 var newQuery = {
   email:email,
@@ -322,24 +341,42 @@ var newQuery = {
   userType:userType
 }
 
- if (email.trim() == ""||name.trim() == ""||phoneNumber.trim() == ""||password.trim() == "") {
-   alert("Email /Name /PhoneNumber /Password missing!");
+ if (email.trim() == "") {
+   alert("Email missing!");
  }
+ else if (name.trim() == "") {
+   alert("Name missing!");
+ }
+ else if (phoneNumber.trim() == "") {
+   alert("PhoneNumber missing!");
+ }
+ else if (password.trim() == "") {
+   alert("Password missing!");
+ }
+ else if (confirmPassword.trim() == "") {
+   alert("Confirm Password missing!");
+ }
+ else if (address.trim() == "") {
+   alert("Address missing!");
+ } 
  else if (password.trim().length < 7) {
    alert("Password must be at least 7 characters");
  } 
+ else if(password.trim() != confirmPassword.trim()){
+  alert("Password and Confirm Password must match");
+ }
  else {
   auth
     .createUserWithEmailAndPassword(email, password)
     .then(result=>{
-      console.log(result)
       db.collection(userType).doc().set(newQuery).then(result=>{
         alert("Account created Successfully!");
         if(userType == "Seller"){
           window.location = "addProducts.html";
         }else{
-          window.location = "viewProducts.html";
+          window.location = "index.html";
         }
+        loginPage.style.display = "none";
     }).catch(err=>{
     alert(err)})
     })
@@ -351,11 +388,7 @@ var newQuery = {
       // ...
     });
  }
- document.getElementById("email").value="";
- document.getElementById("name").value="";
- document.getElementById("address").value="";
- document.getElementById("phoneNumber").value="";
- document.getElementById("password").value="";
+
 };
 
 </script>
@@ -393,6 +426,12 @@ var newQuery = {
         document.getElementById("signup").style.display = "block";
         document.getElementById("signinButton").style.display = "block";
         document.getElementById("selectOption").style.display = "none";
+        document.getElementById("fullnameLabel").style.display = "none";
+        document.getElementById("phoneNumberLabel").style.display = "none";
+        document.getElementById("yourAddressLabel").style.display = "none";
+        document.getElementById("confirmpasswordLabel").style.display = "none";
+        document.getElementById("confirm-password-field").style.display = "none";
+
       }
 
       function showSignUp(){
@@ -405,6 +444,13 @@ var newQuery = {
         document.getElementById("signup").style.display = "none";
         document.getElementById("signinButton").style.display = "none";
         document.getElementById("selectOption").style.display = "block";
+        document.getElementById("yourAddressLabel").style.display = "block";
+        document.getElementById("confirmpasswordLabel").style.display = "block";
+        document.getElementById("confirm-password-field").style.display = "block";
+        document.getElementById("phoneNumberLabel").style.display = "block";
+        document.getElementById("phoneNumber").style.display = "block";
+        document.getElementById("fullnameLabel").style.display = "block";
+
       }
       
     </script>

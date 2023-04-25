@@ -223,12 +223,8 @@ function addProduct() {
   const image = document.getElementById("image").value;
   const description = document.getElementById("description").value;
   
-  const d = new Date();
-  let year = d.getFullYear();
-    let month = d.getMonth();
-    let day = d.getDay();
-    let hour = d.getHours();
-    var todayTime = new Date(year,month,day,hour);
+
+    var todayTime = new Date();
 
   var newProduct = {
     title:title,
