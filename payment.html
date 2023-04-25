@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link href="paymentform.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/templatemo-sixteen.css">
+    </head>
+
+<body>
+    <div class="wrapper">
+        <h2>Payment Form</h2>
+        <form method="POST" id="paymentForm">
+            <h4>Account</h4>
+            <div class="input-group">
+                <div class="input-box">
+                    <input type="text" placeholder="Full Name" required class="name">
+                    <i class="fa fa-user icon"></i>
+                </div>
+                <div class="input-box">
+                    <input type="text" placeholder="Last Name" required class="name">
+                    <i class="fa fa-user icon"></i>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-box">
+                    <input type="email" placeholder="Email Adress" required class="name">
+                    <i class="fa fa-envelope icon"></i>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-box">
+                    <h4>Payment Details</h4>
+                    <input type="radio" name="pay" id="bc1" checked class="radio">
+                    <label for="bc1" ><span><i class="fa fa-cc-visa"></i> Credit Card</span></label>
+                    <input type="radio" name="pay" id="bc2" class="radio">
+                    <label for="bc2"><span><i class="fa fa-cc-paypal"></i> Paypal</span></label>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-box">
+                    <input type="tel" placeholder="Card Number" required class="name" maxlength="19">
+                    <i class="fa fa-credit-card icon"></i>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-box">
+                    <input type="tel" placeholder="Card CVC" required class="name" maxlength="4">
+                    <i class="fa fa-user icon"></i>
+                </div>
+
+                <div class="input-box">
+                    <input type="tel" placeholder="Expiry MM" required class="name" maxlength="4">
+                    <i class="fa fa-user icon"></i>
+                </div>
+                <div class="input-box">
+                    <input type="number" placeholder="Expiry YY" required class="name" maxlength="4">
+                    <i class="fa fa-user icon"></i>
+                </div>
+             
+            </div>
+            <div class="input-group">
+                <div class="input-box">
+                    <button type="submit">PAY NOW</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/owl.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/accordions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+  apiKey: "AIzaSyC2iglMpBS9FeU_gSLmKjqzEkQEXSM6taE",
+  authDomain: "bidonit-4586c.firebaseapp.com",
+  databaseURL: "https://bidonit-4586c-default-rtdb.firebaseio.com",
+  projectId: "bidonit-4586c",
+  storageBucket: "bidonit-4586c.appspot.com",
+  messagingSenderId: "733815136897",
+  appId: "1:733815136897:web:1969d24c7d62f0dd19e380"
+};
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+      // const ref = firebase.storageBucket.ref;
+    </script>
+
+<script>
+    document.getElementById('paymentForm')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();
+   var userEmail = localStorage.getItem('userEmail');
+   var productId = localStorage.getItem("id");
+   var userEmails = [];
+   db.collection("Products").doc(productId).get().then(result=>{
+                    if(result.data().bids){
+                    if(result.data().bids.length>0){
+                        for(var i=0;i<result.data().bids.length;i++){
+                            if(result.data().bids[i].email!=userEmail)
+                            userEmails.push(result.data().bids[i])
+                        }
+                    }
+                    }
+                    db.collection("Products").doc(productId).update({
+                    "bids": userEmails}).then(result=>{
+                    alert('Payment Successful! Your order will be delivered in 5 business days.');
+                    window.location = "index.html";                              
+                      });
+                    }).catch(err=>{
+                        alert(err)
+                    }).catch(err=>{
+                        alert(err)
+                    })
+
+  });
+</script>
